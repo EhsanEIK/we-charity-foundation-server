@@ -17,6 +17,13 @@ async function run() {
     try {
         const activitiesCollection = client.db('weCharityDB').collection('activities');
 
+        // activity [GET all]
+        app.get('/activities', async (req, res) => {
+            const query = {};
+            const activities = await activitiesCollection.find(query).toArray();
+            res.send(activities);
+        })
+
         // activity [POST]
         app.post('/activities', async (req, res) => {
             const activity = req.body;
