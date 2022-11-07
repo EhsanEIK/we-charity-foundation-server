@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
 
@@ -17,6 +18,11 @@ async function run() {
     try {
         const activitiesCollection = client.db('weCharityDB').collection('activities');
         const myActivitiesCollection = client.db('weCharityDB').collection('myActivities');
+
+        // JWT
+        app.post('/jwt', (req, res) => {
+            const user = req.body.currentUser;
+        })
 
         // activity [GET all]
         app.get('/activities', async (req, res) => {
