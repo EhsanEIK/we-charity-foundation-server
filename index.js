@@ -33,6 +33,16 @@ async function run() {
     try {
         const activitiesCollection = client.db('weCharityDB').collection('activities');
         const myActivitiesCollection = client.db('weCharityDB').collection('myActivities');
+        const productsCollection = client.db('weCharityDB').collection('products');
+
+        // products
+        app.get('/products', async (req, res) => {
+            const page = parseInt(req.query.page);
+            const size = parseInt(req.query.size);
+            const products = await productsCollection.find({}).skip(page * size).limit(size).toArray();
+            const count = await productsCollection.estimatedDocumentCount();
+            res.send({ count, products });
+        })
 
         // JWT
         app.post('/jwt', (req, res) => {
@@ -43,9 +53,12 @@ async function run() {
 
         // activity [GET all]
         app.get('/activities', async (req, res) => {
+            const page = parseInt(req.query.page);
+            const size = parseInt(req.query.size);
             const query = {};
-            const activities = await activitiesCollection.find(query).toArray();
-            res.send(activities);
+            const activities = await activitiesCollection.find(query).skip(page * size).limit(size).toArray();;
+            const count = await productsCollection.estimatedDocumentCount();
+            res.send({ count, activities });
         })
 
         // activity [GET one]
