@@ -28,7 +28,6 @@ async function run() {
         // activity [GET one]
         app.get('/activities/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id)
             const query = { _id: ObjectId(id) };
             const activity = await activitiesCollection.findOne(query);
             res.send(activity);
@@ -55,6 +54,14 @@ async function run() {
         app.post('/myActivities', async (req, res) => {
             const myActiviity = req.body;
             const result = await myActivitiesCollection.insertOne(myActiviity);
+            res.send(result);
+        })
+
+        // my activity cart [DELETE]
+        app.delete('/myActivities/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await myActivitiesCollection.deleteOne(query);
             res.send(result);
         })
     }
