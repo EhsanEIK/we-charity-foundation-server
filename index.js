@@ -16,6 +16,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         const activitiesCollection = client.db('weCharityDB').collection('activities');
+        const myActivitiesCollection = client.db('weCharityDB').collection('myActivities');
 
         // activity [GET all]
         app.get('/activities', async (req, res) => {
@@ -28,6 +29,13 @@ async function run() {
         app.post('/activities', async (req, res) => {
             const activity = req.body;
             const result = await activitiesCollection.insertOne(activity);
+            res.send(result);
+        })
+
+        // my activity cart [POST]
+        app.post('/myActivities', async (req, res) => {
+            const myActiviity = req.body;
+            const result = await myActivitiesCollection.insertOne(myActiviity);
             res.send(result);
         })
     }
