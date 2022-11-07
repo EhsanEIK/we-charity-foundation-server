@@ -32,6 +32,16 @@ async function run() {
             res.send(result);
         })
 
+        // my activity cart [GET]
+        app.get('/myActivities', async (req, res) => {
+            let query = {};
+            if (req.query.email) {
+                query = { email: req.query.email };
+            }
+            const myActivites = await myActivitiesCollection.find(query).toArray();
+            res.send(myActivites);
+        })
+
         // my activity cart [POST]
         app.post('/myActivities', async (req, res) => {
             const myActiviity = req.body;
